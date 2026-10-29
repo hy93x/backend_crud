@@ -40,10 +40,24 @@ const updatePost = async (req, res) => {
 
         const post = await Post.findByIdAndUpdate(req.params.id, req.body, { new: true })
 
-        if (!post) 
+        if (!post)
             return res.status(404).json({ message: "Post not found" })
-        res.status(200).json({ message: "Post updated successfully", post})
+        res.status(200).json({ message: "Post updated successfully", post })
 
+
+    } catch (error) {
+        res.status(500).json({ message: "Internal server error", error })
+    }
+}
+
+// Delete a post
+
+const deletePost = async (req, res) => {
+    try {
+        const deleted = await Post.findByIdAndDelete(req.params.id,)
+        if(!deleted)
+            return res.status(404).json({message: "Post not found"})
+        res.status(200).json({message: "Post successfully deleted"})
 
     } catch (error) {
         res.status(500).json({ message: "Internal server error", error })
@@ -55,4 +69,4 @@ const updatePost = async (req, res) => {
 
 
 
-export { createPost, getPosts, updatePost};
+export { createPost, getPosts, updatePost, deletePost };
